@@ -1,4 +1,4 @@
-import { Home, Search, ShoppingCart, Menu } from "lucide-react";
+import { Home, Search, ShoppingCart, Grid3x3 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -41,7 +41,7 @@ const BottomNav = () => {
           className={isActive("/categories") ? "text-primary" : ""}
           onClick={() => navigate("/categories")}
         >
-          <Menu className="h-6 w-6" />
+          <Grid3x3 className="h-6 w-6" />
         </Button>
       </div>
     </div>
