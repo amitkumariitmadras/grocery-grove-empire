@@ -4,6 +4,9 @@ import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import CartSheet from "@/components/CartSheet";
+import BottomNav from "@/components/BottomNav";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import { products, categories } from "@/data/products";
 import { Product, CartItem, LocationState } from "@/types";
 
@@ -102,14 +105,42 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20">
       <Navbar
-        cartItemsCount={cartItems.length}
         location={location.address}
         onSearchChange={setSearchQuery}
-        onCartClick={() => setIsCartOpen(true)}
       />
       
+      <div className="container mx-auto px-4 py-4 max-w-md">
+        <div className="bg-primary/10 rounded-lg p-4 mb-6 text-center">
+          <h2 className="text-2xl font-bold text-primary">Up to 70% Off</h2>
+          <p className="text-sm text-gray-600 mt-1">Special offers on selected items</p>
+        </div>
+
+        <CategoryFilter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+
+        <div className="grid grid-cols-2 gap-4 mt-6">
+          {filteredProducts.slice(0, 4).map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onAddToCart={handleAddToCart}
+            />
+          ))}
+        </div>
+
+        <Button 
+          className="w-full mt-6 flex items-center justify-center gap-2"
+          variant="outline"
+        >
+          Show More <ArrowRight className="w-4 h-4" />
+        </Button>
+      </div>
+
       <CartSheet
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -118,23 +149,7 @@ const Index = () => {
         onRemoveItem={handleRemoveItem}
       />
       
-      <CategoryFilter
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
-      />
-
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={handleAddToCart}
-            />
-          ))}
-        </div>
-      </main>
+      <BottomNav />
     </div>
   );
 };

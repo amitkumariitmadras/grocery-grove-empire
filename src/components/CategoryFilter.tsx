@@ -12,18 +12,22 @@ const CategoryFilter = ({
   onSelectCategory 
 }: CategoryFilterProps) => {
   return (
-    <div className="flex gap-2 overflow-x-auto py-4 px-4 bg-white border-b">
+    <div className="flex gap-2 overflow-x-auto py-2 no-scrollbar">
       <Button
+        size="sm"
         variant={selectedCategory === null ? "default" : "outline"}
         onClick={() => onSelectCategory(null)}
+        className="whitespace-nowrap"
       >
         All
       </Button>
       {categories.map((category) => (
         <Button
           key={category}
+          size="sm"
           variant={selectedCategory === category ? "default" : "outline"}
           onClick={() => onSelectCategory(category)}
+          className="whitespace-nowrap"
         >
           {category}
         </Button>
