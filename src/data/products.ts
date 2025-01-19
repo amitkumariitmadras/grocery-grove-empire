@@ -6,7 +6,7 @@ export const products: Product[] = [
     name: "Fresh Bananas",
     price: 2.99,
     image: "/placeholder.svg",
-    category: "Fruits",
+    category: "Fruits & Vegetables",
     description: "Fresh bananas from local farms"
   },
   {
@@ -14,7 +14,7 @@ export const products: Product[] = [
     name: "Organic Milk",
     price: 4.99,
     image: "/placeholder.svg",
-    category: "Dairy",
+    category: "Dairy, Bread & Eggs",
     description: "Organic whole milk"
   },
   {
@@ -22,7 +22,7 @@ export const products: Product[] = [
     name: "Whole Wheat Bread",
     price: 3.49,
     image: "/placeholder.svg",
-    category: "Bakery",
+    category: "Dairy, Bread & Eggs",
     description: "Freshly baked whole wheat bread"
   },
   {
@@ -30,23 +30,23 @@ export const products: Product[] = [
     name: "Fresh Tomatoes",
     price: 1.99,
     image: "/placeholder.svg",
-    category: "Vegetables",
+    category: "Fruits & Vegetables",
     description: "Ripe red tomatoes"
   },
   {
     id: 5,
-    name: "Chicken Breast",
+    name: "Basmati Rice",
     price: 8.99,
     image: "/placeholder.svg",
-    category: "Meat",
-    description: "Fresh boneless chicken breast"
+    category: "Atta, Rice, Oil & Dals",
+    description: "Premium basmati rice"
   },
   {
     id: 6,
     name: "Greek Yogurt",
     price: 3.99,
     image: "/placeholder.svg",
-    category: "Dairy",
+    category: "Dairy, Bread & Eggs",
     description: "Plain Greek yogurt"
   }
 ];
