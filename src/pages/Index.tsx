@@ -3,13 +3,15 @@ import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
+import CartSheet from "@/components/CartSheet";
 import { products, categories } from "@/data/products";
-import { Product, LocationState } from "@/types";
+import { Product, CartItem, LocationState } from "@/types";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [location, setLocation] = useState<LocationState>({
     latitude: null,
     longitude: null,
@@ -19,13 +21,11 @@ const Index = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Request location access when component mounts
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
           try {
-            // For demo purposes, we'll just set coordinates
             setLocation({
               latitude,
               longitude,
@@ -60,10 +60,44 @@ const Index = () => {
   });
 
   const handleAddToCart = (product: Product) => {
-    setCartItems((prev) => [...prev, product]);
+    setCartItems((prev) => {
+      const existingItem = prev.find((item) => item.id === product.id);
+      if (existingItem) {
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
     toast({
       title: "Added to cart",
       description: `${product.name} has been added to your cart.`,
+    });
+  };
+
+  const handleUpdateQuantity = (itemId: number, action: 'increase' | 'decrease') => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              quantity:
+                action === 'increase'
+                  ? item.quantity + 1
+                  : Math.max(1, item.quantity - 1),
+            }
+          : item
+      )
+    );
+  };
+
+  const handleRemoveItem = (itemId: number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== itemId));
+    toast({
+      title: "Item removed",
+      description: "The item has been removed from your cart.",
     });
   };
 
@@ -73,6 +107,15 @@ const Index = () => {
         cartItemsCount={cartItems.length}
         location={location.address}
         onSearchChange={setSearchQuery}
+        onCartClick={() => setIsCartOpen(true)}
+      />
+      
+      <CartSheet
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
       />
       
       <CategoryFilter
@@ -81,8 +124,8 @@ const Index = () => {
         onSelectCategory={setSelectedCategory}
       />
 
-      <main className="container mx-auto">
-        <div className="product-grid">
+      <main className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}

@@ -1,4 +1,4 @@
-import { ShoppingCart, MapPin, Search } from "lucide-react";
+import { ShoppingCart, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -6,9 +6,10 @@ interface NavbarProps {
   cartItemsCount: number;
   location: string;
   onSearchChange: (query: string) => void;
+  onCartClick: () => void;
 }
 
-const Navbar = ({ cartItemsCount, location, onSearchChange }: NavbarProps) => {
+const Navbar = ({ cartItemsCount, location, onSearchChange, onCartClick }: NavbarProps) => {
   return (
     <nav className="sticky top-0 z-50 bg-white border-b shadow-sm">
       <div className="container mx-auto px-4 py-3">
@@ -31,7 +32,7 @@ const Navbar = ({ cartItemsCount, location, onSearchChange }: NavbarProps) => {
             </div>
           </div>
 
-          <Button variant="outline" className="relative">
+          <Button variant="outline" className="relative" onClick={onCartClick}>
             <ShoppingCart className="w-5 h-5" />
             {cartItemsCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
